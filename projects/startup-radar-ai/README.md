@@ -64,4 +64,4 @@ output/report_2026-06-03.md
 | `TOPIC` | AI startup analytics | Тема поиска |
 | `DAYS_BACK` | 60 | Период поиска в днях |
 | `TARGET_COUNT` | 20 | Желаемое количество стартапов |
-| `STAGE_FILTER` | seed, pre-seed, early | Фильтр по стадии |
+| `STAGE_FILTER` | seed, pre-seed, early | Фильтр по стадии | первый коммит с телефона
