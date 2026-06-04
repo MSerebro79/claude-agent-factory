@@ -1,30 +1,50 @@
 # Pattern: Research Agent
 
-## Description
+## Когда использовать
+Агент собирает информацию из разных источников, анализирует и выдаёт структурированный отчёт.
 
-Searches the web or a document corpus, synthesises findings, and returns a structured report. Suitable for market research, due diligence, and competitive analysis.
+## Типовые примеры
+- Поиск подрядчиков / кандидатов
+- Анализ конкурентов
+- Мониторинг рынка
+- Due diligence по компании
 
-## Core Loop
+## Базовый workflow
+```
+Input (запрос / тема)
+  ↓
+Search (поиск по источникам)
+  ↓
+Filter (отбор релевантного)
+  ↓
+Analyze (LLM анализирует каждый результат)
+  ↓
+Synthesize (LLM собирает итог)
+  ↓
+Report (структурированный output)
+```
 
-1. Receive a research brief (topic, scope, depth).
-2. Generate a list of search queries.
-3. Execute searches (Perplexity / Brave / internal corpus).
-4. Deduplicate and rank results by relevance.
-5. Synthesise into a structured markdown report.
-6. Return report with sources cited inline.
+## Типовые агенты
+- Search Agent — ищет по источникам
+- Analyzer Agent — оценивает каждый результат
+- Synthesizer Agent — собирает финальный отчёт
 
-## Recommended Tools
+## Типовый стек
+- LLM: Claude (анализ, синтез)
+- Поиск: Exa / Tavily / SerpAPI
+- База: Supabase (хранение результатов)
+- Интерфейс: Telegram / CLI
 
-- Web search (Perplexity API or Brave Search API)
-- Optional: vector store retrieval for internal documents
-- Optional: scraper for full-page content
+## Типовые риски
+- Источники могут вернуть нерелевантные результаты
+- LLM может галлюцинировать факты — нужна ссылка на источник
+- Дорого при большом объёме поиска
 
-## Typical Cost
+## Complexity по умолчанию
+M (1–3 дня для MVP)
 
-~4 000–12 000 tokens per run depending on depth.
-
-## Known Risks
-
-- Hallucinated citations — always verify source URLs.
-- Stale data — set a recency filter on searches.
-- Rate limiting on search APIs — implement exponential backoff.
+## Ключевые поля blueprint для этого паттерна
+- Sources: откуда ищем
+- Query Structure: как формируется поисковый запрос
+- Output Format: таблица / markdown / JSON
+- Freshness: как часто обновлять

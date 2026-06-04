@@ -1,30 +1,53 @@
 # Pattern: Sourcing Agent
 
-## Description
+## Когда использовать
+Агент ищет, оценивает и ранжирует кандидатов по заданным критериям.
 
-Proactively discovers and qualifies leads — companies, founders, investors, or candidates — from public sources. Suitable for VC deal sourcing, talent search, and partnership identification.
+## Типовые примеры
+- Поиск подрядчиков / фрилансеров
+- Sourcing SaaS-продуктов для покупки
+- Поиск инвесторов / партнёров
+- Подбор поставщиков
 
-## Core Loop
+## Базовый workflow
+```
+Input (критерии поиска)
+  ↓
+Search (поиск кандидатов по источникам)
+  ↓
+Enrich (сбор дополнительных данных по каждому)
+  ↓
+Score (LLM оценивает по критериям)
+  ↓
+Rank (сортировка по score)
+  ↓
+Filter (отсев неподходящих)
+  ↓
+Report (shortlist с обоснованием)
+```
 
-1. Receive sourcing criteria (sector, stage, geography, keywords).
-2. Query data sources (LinkedIn, Crunchbase, Product Hunt, news APIs, GitHub, etc.).
-3. Score each result against criteria.
-4. Deduplicate against existing pipeline (CRM lookup).
-5. Return ranked shortlist with a one-line rationale per item.
+## Типовые агенты
+- Search Agent — ищет кандидатов
+- Enrichment Agent — обогащает данные
+- Scoring Agent — оценивает и ранжирует
 
-## Recommended Tools
+## Типовый стек
+- LLM: Claude (оценка, обоснование)
+- Поиск: Exa / LinkedIn / нишевые источники
+- База: Supabase (хранение кандидатов)
+- Интерфейс: Telegram / таблица
 
-- Crunchbase API or Apollo.io for company/founder data
-- LinkedIn search (via scraper or API — check ToS)
-- Perplexity or Brave for supplementary web research
-- Airtable or Notion API for CRM deduplication
+## Типовые риски
+- Источники возвращают нерелевантных кандидатов
+- Scoring субъективен — нужны чёткие критерии в промпте
+- Данные быстро устаревают
 
-## Typical Cost
+## Complexity по умолчанию
+M
 
-~5 000–15 000 tokens per sourcing run. Scales with shortlist size.
-
-## Known Risks
-
-- ToS violations on scraped data — prefer official APIs.
-- False positives — require human review before outreach.
-- Stale data — always include a data freshness timestamp in output.
+## Ключевые поля blueprint для этого паттерна
+- Ideal Candidate Profile: критерии оценки
+- Sources: где искать
+- Scoring Criteria: веса по каждому критерию
+- Shortlist Size: сколько финальных кандидатов
+- Output Format: таблица / карточки / JSON

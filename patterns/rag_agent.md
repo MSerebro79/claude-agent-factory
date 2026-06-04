@@ -1,29 +1,54 @@
 # Pattern: RAG Agent
 
-## Description
+## Когда использовать
+Агент отвечает на вопросы опираясь на конкретную базу знаний, а не на общие знания LLM.
 
-Retrieval-Augmented Generation agent that answers questions grounded in a private document corpus. Suitable for internal knowledge bases, deal memos, and research archives.
+## Типовые примеры
+- Чат по документации / базе знаний
+- Поиск по архиву отчётов
+- Q&A по внутренним данным компании
+- Персональный ассистент по заметкам (Obsidian и т.п.)
 
-## Core Loop
+## Базовый workflow
+```
+Query (вопрос пользователя)
+  ↓
+Embed (векторизация запроса)
+  ↓
+Search (поиск в векторной базе)
+  ↓
+Retrieve (забрать релевантные чанки)
+  ↓
+Augment (добавить контекст в промпт)
+  ↓
+Generate (LLM генерирует ответ)
+  ↓
+Cite (ссылки на источники)
+```
 
-1. Receive a user question.
-2. Embed the question and retrieve top-k chunks from the vector store.
-3. Inject retrieved chunks into the context window.
-4. Generate a grounded answer with inline citations.
-5. Return answer and source references.
+## Типовые агенты
+- Ingestion Agent — загружает и индексирует документы
+- Retrieval Agent — ищет релевантный контекст
+- Answer Agent — генерирует ответ с цитатами
 
-## Recommended Tools
+## Типовый стек
+- LLM: Claude (генерация ответа)
+- Эмбеддинги: Claude / OpenAI Embeddings
+- Векторная база: Qdrant
+- Хранение документов: Supabase
+- Интерфейс: Telegram / Web
 
-- Embedding model: `text-embedding-3-small` (OpenAI) or `voyage-3-lite` (Voyage AI)
-- Vector store: Pinecone, Supabase pgvector, or Chroma (local)
-- Reranker (optional): Cohere Rerank for precision boost
+## Типовые риски
+- Качество ответа зависит от качества чанкинга
+- Галлюцинации если контекст не найден — нужен fallback
+- Дорого при большой базе и частых запросах
 
-## Typical Cost
+## Complexity по умолчанию
+L (требует настройки ingestion pipeline)
 
-~2 000–8 000 tokens per query (retrieval + generation). Embedding is cheap; generation dominates.
-
-## Known Risks
-
-- Retrieval misses — tune chunk size and overlap; test with diverse queries.
-- Out-of-date corpus — schedule re-indexing when source documents change.
-- Answer not grounded — enforce citation requirement in system prompt; validate programmatically.
+## Ключевые поля blueprint для этого паттерна
+- Knowledge Sources: что индексируем
+- Chunking Strategy: как делим документы
+- Embedding Model: какая модель для векторизации
+- Retrieval Strategy: top-k / threshold
+- Fallback: что делать если ничего не найдено

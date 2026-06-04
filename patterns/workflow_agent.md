@@ -1,29 +1,52 @@
 # Pattern: Workflow Agent
 
-## Description
+## Когда использовать
+Агент автоматизирует повторяющийся многошаговый процесс с предсказуемой структурой.
 
-Orchestrates a multi-step business process by calling other agents or services in sequence or in parallel. Acts as a coordinator, not an executor.
+## Типовые примеры
+- Обработка входящих заявок
+- Генерация документов по шаблону
+- Онбординг пользователей
+- Pipeline обработки данных
 
-## Core Loop
+## Базовый workflow
+```
+Input (данные / событие)
+  ↓
+Validate (проверка входных данных)
+  ↓
+Process Step 1
+  ↓
+Process Step 2
+  ↓
+...
+  ↓
+Output (результат)
+  ↓
+[Опционально] Notify (уведомление)
+```
 
-1. Receive a task with structured parameters.
-2. Decompose into subtasks and assign to sub-agents or tools.
-3. Collect results; handle partial failures.
-4. Aggregate outputs and return a final result.
-5. Log run metadata (duration, costs, errors) to the project index.
+## Типовые агенты
+- Validator Agent — проверяет входные данные
+- Processor Agent — выполняет основные шаги
+- Output Agent — форматирует результат
 
-## Recommended Tools
+## Типовый стек
+- LLM: Claude (обработка неструктурированных данных в шагах)
+- Оркестрация: n8n / Python
+- База: Supabase
+- Уведомления: Telegram / Email
 
-- Claude API with tool_use for sub-agent dispatch
-- n8n for orchestration nodes
-- Structured output (JSON mode) for reliable parsing between steps
+## Типовые риски
+- Один сломанный шаг останавливает весь pipeline
+- LLM нестабилен — нужна валидация output каждого шага
+- Нет обработки edge cases
 
-## Typical Cost
+## Complexity по умолчанию
+S–M
 
-~2 000–20 000 tokens per run depending on number of subtasks. Budget per sub-agent call separately.
-
-## Known Risks
-
-- Cascading failures — each subtask must have an explicit error path.
-- Context overflow — pass only necessary context to sub-agents.
-- Cost explosion — set per-run token caps and alert on breach.
+## Ключевые поля blueprint для этого паттерна
+- Steps: чёткий список шагов с input/output каждого
+- Error Handling: что делать при сбое шага
+- Retry Logic: сколько попыток
+- Human Escalation: когда передавать человеку

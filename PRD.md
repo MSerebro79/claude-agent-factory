@@ -1,6 +1,6 @@
 # PRD: Agent Factory
-**Version:** 0.6
-**Date:** June 2026
+**Version:** 0.9
+**Date:** June 4, 2026
 **Status:** In Progress
 **Owner:** Mary Silver
 
@@ -353,8 +353,17 @@ Reviewer Agent как независимая роль, режимы NEW / EXISTI
 **v0.5 — done**
 Reviewer: независимая оценка, Confidence уровень, Human Override, Value Type, Designer предлагает режим, Audit Type, Reuse Check, Factory Metrics.
 
-**v0.6 — current**
-Blueprint: Guardrails + Non-goals + Evaluation Plan (секции 20–22). Reviewer: структурированный чеклист Value/Feasibility/Cost/Complexity/Failure Modes + Agent Score (1–10 по 5 критериям). review_template обновлён под Score. Версионирование во всех файлах.
+**v0.6 — done**
+Blueprint: Guardrails + Non-goals + Evaluation Plan. Reviewer: структурированный чеклист + Agent Score. Версионирование во всех файлах.
+
+**v0.7 — done**
+Agent Qualification Test (6 вопросов). Fake Multi-Agent проверка. Automation ROI.
+
+**v0.8 — done**
+Solution Classification: Prompt / Script / n8n / Agent / Multi-Agent. Отдельный script_blueprint_template. Builder умеет Script и n8n.
+
+**v0.9 — current**
+Workflow как отдельный класс (Script ≠ Workflow). Alternative Solutions — Designer обязан обосновать почему нельзя проще. Future Evolution — ожидаемый путь развития решения. Builder разделён на 4 специализированных билдера внутри одного файла: Prompt / Script / Workflow / Agent / Multi-Agent.
 
 **→ Следующий шаг: первый реальный прогон**
 1. Mimi Lingua Leo (EXISTING PROJECT)

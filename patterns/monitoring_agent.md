@@ -1,29 +1,53 @@
 # Pattern: Monitoring Agent
 
-## Description
+## Когда использовать
+Агент регулярно наблюдает за источниками, обнаруживает изменения и отправляет алёрты.
 
-Polls external sources on a schedule, detects anomalies or threshold breaches, and sends alerts. Suitable for price tracking, news alerts, portfolio monitoring, and API health checks.
+## Типовые примеры
+- Мониторинг рекламы конкурентов (Dark Post Intelligence)
+- Отслеживание изменений на сайтах
+- Мониторинг упоминаний бренда
+- Алёрты по ценам / вакансиям
 
-## Core Loop
+## Базовый workflow
+```
+Trigger (расписание / webhook)
+  ↓
+Observe (забрать свежие данные)
+  ↓
+Compare (сравнить с предыдущим состоянием)
+  ↓
+Detect (есть ли изменения?)
+  ↓
+[Если да] Analyze (LLM оценивает значимость)
+  ↓
+Alert (уведомление пользователю)
+  ↓
+Store (сохранить в базу)
+```
 
-1. Trigger on a cron schedule (e.g. every 15 min).
-2. Fetch current state from data source(s).
-3. Compare against stored baseline or threshold.
-4. If anomaly detected → format alert and dispatch to notification channel.
-5. Update stored state.
+## Типовые агенты
+- Collector Agent — забирает данные по расписанию
+- Diff Agent — сравнивает с предыдущим состоянием
+- Alert Agent — формирует и отправляет уведомление
 
-## Recommended Tools
+## Типовый стек
+- LLM: Claude (оценка значимости изменений)
+- Триггер: n8n (расписание) / cron
+- База: Supabase (хранение состояния)
+- Алёрты: Telegram
 
-- HTTP request node (n8n) or `requests` (Python)
-- Simple key-value store for state persistence (Redis / n8n static data)
-- Notification: Telegram Bot API, Slack webhook, or email
+## Типовые риски
+- Источник меняет структуру — парсер ломается
+- Слишком много алёртов — пользователь игнорирует
+- Источник блокирует scraping
 
-## Typical Cost
+## Complexity по умолчанию
+M–L (зависит от источника)
 
-~500–2 000 tokens per poll. Keep system prompt short.
-
-## Known Risks
-
-- Alert fatigue — tune thresholds carefully; add cooldown periods.
-- State loss on restart — persist state externally, not in-memory.
-- Missed polls — use a reliable scheduler with retry logic.
+## Ключевые поля blueprint для этого паттерна
+- Sources: что мониторим
+- Frequency: как часто проверяем
+- Change Detection Logic: что считается изменением
+- Alert Threshold: когда уведомлять
+- State Storage: как храним предыдущее состояние
