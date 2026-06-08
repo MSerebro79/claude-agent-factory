@@ -1,0 +1,28 @@
+{
+  "battery_name": "BL1850B",
+  "brand": "Makita",
+  "compatible_devices": [
+    {
+      "brand": "Makita",
+      "series": "18V LXT",
+      "models": ["DDF484", "DHR242", "DGA504", "DTD154", "DSS611", "DJV182", "DHP484", "DHR171", "DGA452", "DTD153"]
+    },
+    {
+      "brand": "Makita",
+      "series": "18V Compact",
+      "models": ["DDF453", "DTD148", "DSS501"]
+    }
+  ],
+  "third_party_compatibility": [
+    {
+      "brand": "Hitachi/HiKOKI",
+      "note": "partial — verify specific model before purchase",
+      "confidence_override": "Low"
+    }
+  ],
+  "confidence": "High",
+  "sources": [
+    "https://www.makitatools.com/products/details/BL1850B",
+    "https://www.amazon.com/Makita-BL1850B-18V-5-0Ah-Battery/dp/B00LM8IBCE"
+  ]
+}
